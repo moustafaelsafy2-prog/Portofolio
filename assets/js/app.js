@@ -2,267 +2,179 @@
 const $ = (s, p=document)=>p.querySelector(s);
 const $$ = (s, p=document)=>Array.from(p.querySelectorAll(s));
 
-// Year
-$('#year').textContent = new Date().getFullYear();
+/* Year */
+$('#year') && ($('#year').textContent = new Date().getFullYear());
 
-// Reveal on scroll
-const reveals = $$('.reveal');
-const io = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }});
-},{threshold:0.12});
-reveals.forEach(r=>io.observe(r));
-
-// Tilt hover
-$$('.tilt').forEach(el=>{
-  let rAF;
-  const onMove = (e)=>{
-    const r = el.getBoundingClientRect();
-    const x = (e.clientX - r.left)/r.width - .5;
-    const y = (e.clientY - r.top)/r.height - .5;
-    el.style.transform = `rotateY(${x*-6}deg) rotateX(${y*6}deg)`;
-  };
-  el.addEventListener('mousemove', e=>{ cancelAnimationFrame(rAF); rAF = requestAnimationFrame(()=>onMove(e)); });
-  el.addEventListener('mouseleave', ()=>{ el.style.transform = ''; });
-});
-
-// Burger menu (mobile)
+/* Burger (show/hide nav) */
 $('.burger')?.addEventListener('click', ()=>{
-  const nav = $('.menu');
-  const shown = getComputedStyle(nav).display !== 'none';
-  nav.style.display = shown ? 'none' : 'flex';
+  const nav = $('.mainnav');
+  nav.style.display = (getComputedStyle(nav).display === 'none') ? 'flex' : 'none';
 });
 
-// Active underline (desktop only)
-const menu = $('.menu');
-if (menu){
-  const underline = $('.active-underline', menu);
-  const links = $$('a:not(.cta)', menu);
-  const setUnderline = (a)=>{
-    if (getComputedStyle(menu).display === 'none') return; // skip on mobile
-    const r = a.getBoundingClientRect();
-    const pr = menu.getBoundingClientRect();
-    underline.style.width = r.width + 'px';
-    underline.style.right = (pr.right - r.right) + 'px';
-  };
-  links.forEach(a=>{ a.addEventListener('mouseenter', ()=>setUnderline(a)); a.addEventListener('click', ()=>setUnderline(a)); });
-  setUnderline($('.active', menu) || links[0]);
-}
+/* Language Packs */
+const i18n = {
+  ar:{
+    nav:{services:'الخدمات',work:'الأعمال',process:'المنهجية',gallery:'المعرض',book:'احجز'},
+    brandTitle:'مصطفى الصافي', brandSub:'إدارة مشاريع وأعمال • تأسيس وتشغيل وتسويق',
+    heroTitle:'أُحوّل الرؤية إلى <span class="accent">مشاريع تعمل وتُقاس</span>',
+    heroLead:'تأسيس شركات، ضبط التشغيل، وخطط تسويق عملية — لتسليم نتائج واضحة في الوقت والميزانية والجودة.',
+    'services.h':'ماذا أقدّم', 'services.p':'حزم تنفيذية مختصرة بنتائج قابلة للقياس.',
+    's1.h':'إدارة مشاريع (PMO)','s1.p':'هيكلة PMO، خارطة طريق، مؤشرات، وإدارة مخاطر وتغيير.','s1.b1':'إطار حوكمة ومتابعة','s1.b2':'تخطيط سعة وموارد','s1.b3':'تقارير تنفيذية',
+    's2.h':'تأسيس وتشغيل الشركات','s2.p':'تصميم الهيكل التشغيلي، SOPs، وLOE/SLAs قابلة للقياس.','s2.b1':'خرائط عمليات','s2.b2':'OKRs & KPIs','s2.b3':'لوحات متابعة يومية',
+    's3.h':'خطط تسويق ونمو','s3.p':'عرض قيمة، قمع مبيعات، وجدولة محتوى واختبارات A/B.','s3.b1':'GTM & Positioning','s3.b2':'Funnels & Automation','s3.b3':'تقارير ROI',
+    'cases.h':'دراسات حالة مختصرة','cases.p':'عينات عملية توضح الأسلوب والعائد.',
+    'c1.h':'إطلاق PMO لجهة خدمات','c1.p':'تسليم 11 مشروعًا في 2 ربع مع خفض المخاطر 24%.',
+    'c2.h':'تأسيس وتشغيل 5 فروع','c2.p':'SOPs، تدريب، ولوحات قياس — تقليص الزمن 31%.',
+    'c3.h':'خطة تسويق مع قمع مبيعات','c3.p':'+27% تحويل ورفع LTV في 90 يومًا.',
+    more:'التفاصيل',
+    'process.h':'كيف أعمل','process.p':'خطوات مركزة تُسلم نتائج ضمن الوقت والميزانية.',
+    'p1.h':'تقييم سريع','p1.p':'تحليل فجوات وKPI الحالي وخريطة مخاطر.',
+    'p2.h':'تصميم النظام','p2.p':'حوكمة PMO، SOPs، ولوحات قياس.',
+    'p3.h':'التنفيذ','p3.p':'إدارة موارد وجدولة، وWBS قابل للقياس.',
+    'p4.h':'التحسين','p4.p':'تقارير تنفيذية، A/B، وتجربة مستمرة.',
+    'gallery.h':'المعرض','gallery.p':'صور توضيحية من بيئات العمل، غرف عمليات، وتقارير.',
+    'cta.h':'جاهز لتحويل الفكرة إلى تشغيل؟','cta.p':'احجز جلسة تعريفية قصيرة لنضع خطة تنفيذ حقيقية.',
+    'cta.book':'احجز الآن','cta.call':'اتصال','cta.wa':'واتساب','cta.mail':'إيميل','cta.hint':'سيُفتح التطبيق المناسب دون عرض البيانات نصيًا.',
+    'modal.call':'اتصال الآن','modal.wa':'واتساب','modal.mail':'إيميل',
+    footerName:'مصطفى الصافي'
+  },
+  en:{
+    nav:{services:'Services',work:'Work',process:'Process',gallery:'Gallery',book:'Book'},
+    brandTitle:'Mostafa Al-Safy', brandSub:'Project & Business Management • Setup, Operations, Marketing',
+    heroTitle:'I turn vision into <span class="accent">projects that ship & scale</span>',
+    heroLead:'Company setup, lean operations, and actionable marketing plans—on time, on budget, on quality.',
+    'services.h':'What I Deliver', 'services.p':'Execution-first packages with measurable outcomes.',
+    's1.h':'Project Management (PMO)','s1.p':'PMO setup, roadmap, KPIs, and risk/change control.','s1.b1':'Governance & tracking','s1.b2':'Capacity & resourcing','s1.b3':'Executive reporting',
+    's2.h':'Company Setup & Operations','s2.p':'Operating model, SOPs, measurable SLAs and LOE.','s2.b1':'Process maps','s2.b2':'OKRs & KPIs','s2.b3':'Daily dashboards',
+    's3.h':'Marketing & Growth Plans','s3.p':'Value proposition, sales funnels, content & A/B tests.','s3.b1':'GTM & Positioning','s3.b2':'Funnels & Automation','s3.b3':'ROI reporting',
+    'cases.h':'Selected Case Studies','cases.p':'Practical samples that show approach and ROI.',
+    'c1.h':'PMO Launch for Services Org','c1.p':'11 projects delivered across 2 quarters; risk -24%.',
+    'c2.h':'Setup & Operate 5 Branches','c2.p':'SOPs, training & dashboards; cycle time -31%.',
+    'c3.h':'Marketing Plan + Funnel','c3.p':'+27% conversion and higher LTV in 90 days.',
+    more:'Details',
+    'process.h':'How I Work','process.p':'Focused steps that ship results on time and on budget.',
+    'p1.h':'Rapid Assessment','p1.p':'Gap analysis, current KPIs, and risk map.',
+    'p2.h':'System Design','p2.p':'PMO governance, SOPs, and dashboards.',
+    'p3.h':'Execution','p3.p':'Resourcing, scheduling, and measurable WBS.',
+    'p4.h':'Optimization','p4.p':'Executive reporting, A/B tests, continuous improvement.',
+    'gallery.h':'Gallery','gallery.p':'Illustrative workplace, ops rooms, and reporting visuals.',
+    'cta.h':'Ready to turn ideas into operations?','cta.p':'Book a short intro to map a real execution plan.',
+    'cta.book':'Book Now','cta.call':'Call','cta.wa':'WhatsApp','cta.mail':'Email','cta.hint':'We will open the proper app without exposing details.',
+    'modal.call':'Call Now','modal.wa':'WhatsApp','modal.mail':'Email',
+    footerName:'Mostafa Al-Safy'
+  }
+};
+let LANG = 'ar';
 
-// Carousel
+function applyLang(l){
+  LANG = l;
+  document.documentElement.lang = (l==='ar'?'ar':'en');
+  document.documentElement.dir  = (l==='ar'?'rtl':'ltr');
+  document.body.setAttribute('data-lang', l);
+  const t = i18n[l];
+  // simple keys
+  $('[data-i18n="nav.services"]').textContent = t.nav.services;
+  $('[data-i18n="nav.work"]').textContent = t.nav.work;
+  $('[data-i18n="nav.process"]').textContent = t.nav.process;
+  $('[data-i18n="nav.gallery"]').textContent = t.nav.gallery;
+  $('[data-i18n="nav.book"]').textContent = t.nav.book;
+  $('#t.brandTitle').textContent = t.brandTitle;
+  $('#t.brandSub').textContent   = t.brandSub;
+  $('#t.heroTitle').innerHTML    = t.heroTitle;
+  $('#t.heroLead').textContent   = t.heroLead;
+
+  // bulk map
+  const keys = ['services.h','services.p','s1.h','s1.p','s1.b1','s1.b2','s1.b3','s2.h','s2.p','s2.b1','s2.b2','s2.b3','s3.h','s3.p','s3.b1','s3.b2','s3.b3','cases.h','cases.p','c1.h','c1.p','c2.h','c2.p','c3.h','c3.p','more','process.h','process.p','p1.h','p1.p','p2.h','p2.p','p3.h','p3.p','p4.h','p4.p','gallery.h','gallery.p','cta.h','cta.p','cta.book','cta.call','cta.wa','cta.mail','modal.call','modal.wa','modal.mail','cta.hint'];
+  keys.forEach(k=>{
+    const el = document.querySelector(`[data-i18n="${k}"]`);
+    if (el) el.textContent = t[k];
+  });
+  $('#t.footerName').textContent = t.footerName;
+  $('#langToggle').textContent   = (l==='ar'?'EN':'AR');
+}
+applyLang('ar');
+
+$('#langToggle').addEventListener('click', ()=>applyLang(LANG==='ar'?'en':'ar'));
+
+/* Carousel */
 const track = $('#caseTrack'), dotsWrap = $('#caseDots');
 if (track && dotsWrap){
   const slides = Array.from(track.children);
   let idx = 0, auto;
-  function updateDots(){ dotsWrap.querySelectorAll('button').forEach((b,i)=> b.classList.toggle('active', i===idx)); }
+  function updateDots(){ dotsWrap.querySelectorAll('button').forEach((b,i)=>b.classList.toggle('active', i===idx)); }
   function go(n){
     idx = (n + slides.length) % slides.length;
-    track.scrollTo({left: slides[idx].offsetLeft - track.offsetLeft, behavior:'smooth'});
-    updateDots();
+    const X = slides[idx].offsetLeft - track.offsetLeft;
+    track.scrollTo({left:X, behavior:'smooth'}); updateDots();
   }
-  slides.forEach((_,i)=>{ const b=document.createElement('button'); b.setAttribute('aria-label',`Slide ${i+1}`); b.onclick=()=>go(i); dotsWrap.appendChild(b); });
+  slides.forEach((_,i)=>{ const b=document.createElement('button'); b.setAttribute('aria-label',`slide ${i+1}`); b.onclick=()=>go(i); dotsWrap.appendChild(b); });
   updateDots();
-  $('.prev').onclick=()=>go(idx-1); $('.next').onclick=()=>go(idx+1);
-  const startAuto = ()=> auto = setInterval(()=>go(idx+1), 5000);
-  const stopAuto  = ()=> clearInterval(auto);
-  track.addEventListener('mouseenter', stopAuto); track.addEventListener('mouseleave', startAuto); startAuto();
-
-  // Drag/Swipe
-  let isDown=false, startX, scrollLeft;
-  track.addEventListener('mousedown', e=>{ isDown=true; startX=e.pageX - track.offsetLeft; scrollLeft=track.scrollLeft; });
-  track.addEventListener('mouseleave', ()=>{ isDown=false; });
-  track.addEventListener('mouseup', ()=>{ isDown=false; });
-  track.addEventListener('mousemove', e=>{ if(!isDown) return; e.preventDefault(); const x=e.pageX-track.offsetLeft; const walk=(x-startX)*1.3; track.scrollLeft=scrollLeft-walk; });
-  let touchStartX=0;
-  track.addEventListener('touchstart', e=>{ touchStartX=e.touches[0].clientX; }, {passive:true});
-  track.addEventListener('touchend', e=>{ const dx=e.changedTouches[0].clientX - touchStartX; if(Math.abs(dx)>50){ dx>0?go(idx-1):go(idx+1);} }, {passive:true});
+  document.querySelector('.prev').onclick=()=>go(idx-1);
+  document.querySelector('.next').onclick=()=>go(idx+1);
+  const startAuto=()=>auto=setInterval(()=>go(idx+1),5000);
+  const stopAuto =()=>clearInterval(auto);
+  track.addEventListener('mouseenter',stopAuto);
+  track.addEventListener('mouseleave',startAuto);
+  startAuto();
+  // swipe
+  let startX=0;
+  track.addEventListener('touchstart',e=>{ startX=e.touches[0].clientX; },{passive:true});
+  track.addEventListener('touchend',e=>{ const dx=e.changedTouches[0].clientX-startX; if(Math.abs(dx)>50){ dx>0?go(idx-1):go(idx+1);} },{passive:true});
 }
 
-// Cases Modal (AR/EN data)
-const caseModal = $('#caseModal');
-const closeCase = caseModal?.querySelector('.modal-close');
-const cTitle = $('#caseTitle'), cDesc = $('#caseDesc'), cBul = $('#caseBullets');
+/* Case Modal */
 const CASES = {
-  'ar': {
-    1:{t:'تحسين صفحة هبوط', d:'اختبار CTA والمصداقية مع ترتيب العناصر حسب Heatmap.', b:['CTA واضح','أدلة اجتماعية','تقليل الإلهاء']},
-    2:{t:'قمع مبيعات قصير', d:'رسائل تحقق ومتابعة تقلل التسرب.', b:['نماذج تحقق','رسائل قصيرة','مواعيد تلقائية']},
-    3:{t:'لوحة قياس تنفيذية', d:'ربط التسويق بالمبيعات وتنبيهات يومية.', b:['KPIs يومية','تنبيهات فورية','تقارير مختصرة']}
+  ar:{
+    1:{t:'إطلاق PMO لجهة خدمات', d:'إعداد إطار الحوكمة، تقارير أسبوعية، ومصفوفة مخاطر. تم تسليم 11 مشروعًا خلال ربعين وتقليل المخاطر 24%.', b:['حوكمة PMO','تقارير تنفيذية','خفض المخاطر 24%']},
+    2:{t:'تأسيس وتشغيل 5 فروع', d:'SOPs موحدة، تدريب، ولوحات قياس. تقليص زمن الدورة 31% وتحسن رضا العملاء.', b:['SOPs موحدة','لوحات قياس يومية','-31% زمن الدورة']},
+    3:{t:'خطة تسويق + قمع مبيعات', d:'صياغة عرض قيمة وتجارب A/B ورسائل متابعة. +27% تحويل خلال 90 يومًا.', b:['عرض قيمة','A/B + Follow-ups','+27% تحويل']}
   },
-  'en': {
-    1:{t:'Landing Page Optimization', d:'CTA & credibility tests; heatmap-driven layout.', b:['Crisp CTA','Social proof','Reduced distractions']},
-    2:{t:'Tight Sales Funnel', d:'Verification & follow-ups to reduce leakage.', b:['Verification forms','Short messaging','Auto scheduling']},
-    3:{t:'Executive Dashboard', d:'Daily link between marketing & sales with alerts.', b:['Daily KPIs','Instant alerts','Brief reports']}
+  en:{
+    1:{t:'PMO Launch for Services Org', d:'Governance framework, weekly reporting, risk matrix. 11 projects shipped in two quarters; risks down 24%.', b:['PMO governance','Exec reporting','-24% risk']},
+    2:{t:'Setup & Operate 5 Branches', d:'Unified SOPs, training, dashboards. Cycle time down 31%; CSAT up.', b:['Unified SOPs','Daily dashboards','-31% cycle time']},
+    3:{t:'Marketing Plan + Funnel', d:'Value prop, A/B tests, follow-ups. +27% conversion in 90 days.', b:['Value proposition','A/B + follow-ups','+27% conversion']}
   }
 };
-let LANG='ar';
-
-$$('.open-modal').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    const id = btn.dataset.case;
+const caseModal = $('#caseModal');
+const cTitle = $('#caseTitle'), cDesc = $('#caseDesc'), cBul = $('#caseBullets');
+$$('.open-modal').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    const id=b.dataset.case;
     const data = CASES[LANG][id];
-    cTitle.textContent = data.t; cDesc.textContent = data.d;
-    cBul.innerHTML = ''; data.b.forEach(x=>{ const li=document.createElement('li'); li.textContent=x; cBul.appendChild(li); });
+    cTitle.textContent=data.t; cDesc.textContent=data.d;
+    cBul.innerHTML=''; data.b.forEach(x=>{ const li=document.createElement('li'); li.textContent=x; cBul.appendChild(li); });
     caseModal.classList.add('show'); caseModal.setAttribute('aria-hidden','false');
   });
 });
-closeCase?.addEventListener('click', ()=>{ caseModal.classList.remove('show'); caseModal.setAttribute('aria-hidden','true'); });
-caseModal?.addEventListener('click', e=>{ if(e.target===caseModal){ caseModal.classList.remove('show'); caseModal.setAttribute('aria-hidden','true'); }});
+caseModal?.querySelector('.close')?.addEventListener('click', ()=>{ caseModal.classList.remove('show'); caseModal.setAttribute('aria-hidden','true'); });
+caseModal?.addEventListener('click', e=>{ if(e.target===caseModal) { caseModal.classList.remove('show'); caseModal.setAttribute('aria-hidden','true'); }});
 
-// Contact Modal (no public data)
+/* Contact Modal (no public data) */
 const contactModal = $('#contactModal');
-const contactClose = contactModal?.querySelector('.modal-close');
 const contactTitle = $('#contactTitle'), contactDesc = $('#contactDesc');
-const COPY = {
-  ar:{callTitle:'اتصال', callDesc:'سنفتح تطبيق الاتصال مباشرة.',
-      waTitle:'واتساب', waDesc:'سنفتح واتساب برسالة تمهيدية.',
-      emTitle:'إيميل', emDesc:'سنفتح برنامج البريد.'},
-  en:{callTitle:'Phone Call', callDesc:'We will open your dialer directly.',
-      waTitle:'WhatsApp', waDesc:'We will open WhatsApp with a starter message.',
-      emTitle:'Email', emDesc:'We will open your mail app.'}
+const copy = {
+  ar:{callTitle:'اتصال',callDesc:'سيتم فتح تطبيق الاتصال مباشرة.',waTitle:'واتساب',waDesc:'سيتم فتح واتساب برسالة تمهيدية.',emTitle:'إيميل',emDesc:'سيتم فتح برنامج البريد.'},
+  en:{callTitle:'Phone Call',callDesc:'We will open your dialer directly.',waTitle:'WhatsApp',waDesc:'We will open WhatsApp with a starter message.',emTitle:'Email',emDesc:'We will open your mail app.'}
 };
-$$('.open-contact').forEach(b=>{
-  b.addEventListener('click', ()=>{
-    const ch=b.dataset.channel;
-    let t='',d='';
-    if(ch==='call'){t=COPY[LANG].callTitle; d=COPY[LANG].callDesc;}
-    if(ch==='whatsapp'){t=COPY[LANG].waTitle; d=COPY[LANG].waDesc;}
-    if(ch==='email'){t=COPY[LANG].emTitle; d=COPY[LANG].emDesc;}
-    contactTitle.textContent=t; contactDesc.textContent=d;
+$$('.open-contact').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const ch=btn.dataset.channel; const c=copy[LANG];
+    const m = {call:[c.callTitle,c.callDesc], whatsapp:[c.waTitle,c.waDesc], email:[c.emTitle,c.emDesc]}[ch];
+    contactTitle.textContent = m[0]; contactDesc.textContent = m[1];
     contactModal.classList.add('show'); contactModal.setAttribute('aria-hidden','false');
     $$('.do-action').forEach(x=>x.classList.remove('primary'));
     $(`.do-action[data-action="${ch}"]`)?.classList.add('primary');
   });
 });
-contactClose?.addEventListener('click', ()=>{ contactModal.classList.remove('show'); contactModal.setAttribute('aria-hidden','true'); });
-contactModal?.addEventListener('click', e=>{ if(e.target===contactModal){ contactModal.classList.remove('show'); contactModal.setAttribute('aria-hidden','true'); }});
+contactModal?.querySelector('.close')?.addEventListener('click', ()=>{ contactModal.classList.remove('show'); contactModal.setAttribute('aria-hidden','true'); });
+contactModal?.addEventListener('click', e=>{ if(e.target===contactModal) { contactModal.classList.remove('show'); contactModal.setAttribute('aria-hidden','true'); }});
 $$('.do-action').forEach(btn=>btn.addEventListener('click', ()=>{ window.location.href = btn.dataset.hidden; }));
 
-// Stars background
-(function stars(){
-  const c = $('#bgStars'); const ctx = c.getContext('2d'); const dpr = window.devicePixelRatio || 1;
-  function resize(){ c.width = c.clientWidth * dpr; c.height = c.clientHeight * dpr; ctx.setTransform(dpr,0,0,dpr,0,0); }
-  function draw(){
-    const w=c.clientWidth, h=c.clientHeight; ctx.clearRect(0,0,w,h);
-    for(let i=0;i<80;i++){ const x=Math.random()*w, y=Math.random()*h, r=Math.random()*1.6;
-      ctx.fillStyle = `rgba(255,255,255,${.25+Math.random()*0.5})`; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); }
-  }
-  const ro = new ResizeObserver(()=>{ resize(); draw(); }); ro.observe(c); resize(); draw();
-})();
-
-// Charts (responsive)
-function barChart(ctx, labels, before, after){
-  const w=ctx.canvas.clientWidth, h=ctx.canvas.clientHeight, dpr=window.devicePixelRatio||1;
-  ctx.canvas.width=w*dpr; ctx.canvas.height=h*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
-  ctx.clearRect(0,0,w,h);
-  const pad=36, barW=(w-pad*2)/(labels.length*2 + labels.length);
-  const max=Math.max(...before,...after)*1.2; const toY=v=>h-pad - ((h-pad*2)*(v/max));
-  ctx.strokeStyle='rgba(255,255,255,.18)'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(pad,pad); ctx.lineTo(pad,h-pad); ctx.lineTo(w-pad,h-pad); ctx.stroke();
-  let x=pad+8;
-  for(let i=0;i<labels.length;i++){
-    ctx.fillStyle='rgba(109,75,255,.95)'; let y1=toY(before[i]); ctx.fillRect(x,y1,barW,h-pad-y1);
-    ctx.fillStyle='rgba(255,77,126,.95)'; let x2=x+barW+6, y2=toY(after[i]); ctx.fillRect(x2,y2,barW,h-pad-y2);
-    ctx.fillStyle='rgba(255,255,255,.85)'; ctx.font='12px Inter'; ctx.textAlign='center'; ctx.fillText(labels[i], x+barW+3, h-pad+16);
-    x+=barW*2+22;
-  }
-}
-function sparkline(ctx, data){
-  const w=ctx.canvas.clientWidth, h=ctx.canvas.clientHeight, dpr=window.devicePixelRatio||1;
-  ctx.canvas.width=w*dpr; ctx.canvas.height=h*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
-  ctx.clearRect(0,0,w,h);
-  const pad=10, max=Math.max(...data), min=Math.min(...data);
-  const toXY=(i,v)=>[ pad + i*((w-pad*2)/(data.length-1)), h-pad - ((h-pad*2)*(v-min)/(max-min||1)) ];
-  ctx.strokeStyle='rgba(255,255,255,.12)'; ctx.lineWidth=1;
-  for(let i=0;i<4;i++){ const y=pad + i*((h-pad*2)/3); ctx.beginPath(); ctx.moveTo(pad,y); ctx.lineTo(w-pad,y); ctx.stroke(); }
-  ctx.beginPath(); data.forEach((v,i)=>{ const [x,y]=toXY(i,v); if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); });
-  ctx.strokeStyle='rgba(109,75,255,1)'; ctx.lineWidth=2; ctx.stroke();
-  const grad=ctx.createLinearGradient(0,0,0,h); grad.addColorStop(0,'rgba(109,75,255,.35)'); grad.addColorStop(1,'transparent');
-  ctx.lineTo(w-pad,h-pad); ctx.lineTo(pad,h-pad); ctx.closePath(); ctx.fillStyle=grad; ctx.fill();
-  const [lx,ly]=toXY(data.length-1,data[data.length-1]); ctx.fillStyle='rgba(255,77,126,1)'; ctx.beginPath(); ctx.arc(lx,ly,4,0,Math.PI*2); ctx.fill();
-}
-function drawCharts(){
-  const barCtx=$('#barChart').getContext('2d');
-  const sparkCtx=$('#sparkChart').getContext('2d');
-  const labels=(LANG==='ar')?['زيارات','تحويل','عائد']:['Visits','Conv','Revenue'];
-  barChart(barCtx,labels,[100,3,10],[140,3.7,13.5]);
-  sparkline(sparkCtx,[20,23,21,26,30,28,34,37,35,41,44,47]);
-}
-window.addEventListener('load', drawCharts);
-window.addEventListener('resize', ()=>{ clearTimeout(window._r); window._r=setTimeout(drawCharts,160); });
-
-// Language data
-const LANGS={
-  ar:{nav:{home:"الرئيسية",about:"عني",services:"الخدمات",cases:"أعمال",insights:"نتائج",book:"احجز"},
-      cta:{book:"احجز جلسة",call:"اتصال",whatsapp:"واتساب",email:"إيميل"},
-      brandTitle:"مصطفى الصافي", brandSub:"أصنع نموًا قابلاً للقياس — بدون تعقيد",
-      heroTitle:"أحوّل الاستراتيجية إلى <span class='grad'>نتائج تسويقية قابلة للقياس</span>",
-      heroLead:"أصمم عروض قيمة وقمع مبيعات، وأبني لوحات قياس وأتمتة خفيفة — لزيادة العائد وتقليل الهدر بسرعة.",
-      badge:"علامة شخصية • تنفيذ", heroCardH:"مصطفى الصافي", heroCardP:"Growth & Marketing Execution",
-      v1h:"عرض قيمة مقنع", v1p:"Promise واضح + تفريق حقيقي + Social Proof يقنع دون خصومات.",
-      v2h:"قمع مبيعات ذكي", v2p:"Landing + Follow-ups + A/B لرفع التحويل بأقل تكلفة.",
-      v3h:"لوحات قياس", v3p:"KPIs يومية تربط التسويق بالمبيعات والخدمة.",
-      services:{h:"ماذا أقدّم", p:"حزم تنفيذية قصيرة المدى بنتائج واضحة."},
-      s1:{h:"تحسين العرض والرسائل", p:"Promise واضح، مزايا تفاضلية، وCTA محفّز."},
-      s2:{h:"قمع مبيعات + متابعة", p:"A/B + سيناريوهات Follow-up تقلّل التسرب."},
-      s3:{h:"لوحات قياس وتنبيه", p:"KPIs يومية تربط التسويق بالمبيعات والخدمة."},
-      cases:{h:"أعمال مختصرة", p:"نماذج تطبيق واقعية تعكس أسلوب التنفيذ."},
-      c1:{h:"تحسين صفحة هبوط", p:"+22% تحويل خلال 3 أسابيع عبر CTA/مصداقية."},
-      c2:{h:"قمع مبيعات قصير", p:"-18% تسرب برسائل تحقق ومتابعة."},
-      c3:{h:"لوحة قياس تنفيذية", p:"ربط التسويق بالمبيعات لاتخاذ قرار أسرع."},
-      more:"التفاصيل",
-      insights:{h:"نتائج مختصرة", p:"رسوم تفاعلية توضّح التأثير قبل/بعد."},
-      chartsNote:"* أمثلة توضيحية؛ تُخصص حسب نشاطك.",
-      contact:{h:"دعنا نبدأ", p:"جلسة قصيرة لتحديد الأولويات وتحويلها إلى خطة تنفيذية."},
-      modal:{call:"اتصال الآن", whatsapp:"واتساب", email:"إيميل"},
-      footerName:"مصطفى الصافي"},
-  en:{nav:{home:"Home",about:"About",services:"Services",cases:"Work",insights:"Insights",book:"Book"},
-      cta:{book:"Book a Session",call:"Call",whatsapp:"WhatsApp",email:"Email"},
-      brandTitle:"Mostafa Al-Safy", brandSub:"I drive measurable growth — without complexity",
-      heroTitle:"I turn strategy into <span class='grad'>measurable marketing outcomes</span>",
-      heroLead:"I craft offers & funnels, build dashboards and light automations — to boost ROI fast.",
-      badge:"Personal Brand • Execution", heroCardH:"Mostafa Al-Safy", heroCardP:"Growth & Marketing Execution",
-      v1h:"Compelling Value Proposition", v1p:"Clear promise + differentiation + social proof.",
-      v2h:"Smart Funnel", v2p:"Landing + follow-ups + A/B to lift conversions.",
-      v3h:"Dashboards & KPIs", v3p:"Daily KPIs linking marketing to sales & service.",
-      services:{h:"What I Deliver", p:"Short, execution-first packages with clear results."},
-      s1:{h:"Offer & Messaging", p:"Sharp promise, differentiation, and a strong CTA."},
-      s2:{h:"Funnel & Follow-ups", p:"A/B tests and follow-up scenarios to reduce leakage."},
-      s3:{h:"Dashboards & Alerts", p:"Daily KPIs connecting marketing to sales & service."},
-      cases:{h:"Selected Work", p:"Practical samples of execution."},
-      c1:{h:"Landing Page Optimization", p:"+22% conversion in 3 weeks (CTA/credibility)."},
-      c2:{h:"Tight Sales Funnel", p:"-18% leakage via verification & follow-ups."},
-      c3:{h:"Executive Dashboard", p:"Daily link between marketing & sales."},
-      more:"Details",
-      insights:{h:"Quick Results", p:"Interactive charts showing before/after."},
-      chartsNote:"* Illustrative; adapted to your business.",
-      contact:{h:"Let’s Start", p:"A short session to prioritize and execute."},
-      modal:{call:"Call Now", whatsapp:"WhatsApp", email:"Email"},
-      footerName:"Mostafa Al-Safy"}
-};
-function applyLang(l){
-  LANG=l;
-  const t=LANGS[l];
-  document.documentElement.lang=(l==='ar'?'ar':'en');
-  document.documentElement.dir=(l==='ar'?'rtl':'ltr');
-  document.body.setAttribute('data-lang', l);
-  // simple mapping
-  $$('[data-i18n]').forEach(el=>{
-    const path=el.getAttribute('data-i18n').split('.');
-    let val=t; path.forEach(k=>val=val?.[k]);
-    if(typeof val==='string'){ el.textContent=val; }
-  });
-  $('#t.brandTitle').textContent=t.brandTitle;
-  $('#t.brandSub').textContent=t.brandSub;
-  $('#t.heroTitle').innerHTML=t.heroTitle;
-  $('#t.heroLead').textContent=t.heroLead;
-  $('#t.badge').textContent=t.badge;
-  $('#t.heroCardH').textContent=t.heroCardH;
-  $('#t.heroCardP').textContent=t.heroCardP;
-  $('#t.v1h').textContent=t.v1h; $('#t.v1p').textContent=t.v1p;
-  $('#t.v2h').textContent=t.v2h; $('#t.v2p').textContent=t.v2p;
-  $('#t.v3h').textContent=t.v3h; $('#t.v3p').textContent=t.v3p;
-  $('#t.chartsNote').textContent=t.chartsNote;
-  $('#t.footerName').textContent=t.footerName;
-  $('#langToggle').textContent=(l==='ar'?'EN':'AR');
-  drawCharts();
-}
-applyLang('ar');
-$('#langToggle').addEventListener('click', ()=>applyLang(LANG==='ar'?'en':'ar'));
+/* Gallery modal */
+const imgModal = $('#imgModal'), imgBig = $('#imgBig');
+$('#galGrid')?.addEventListener('click', e=>{
+  const t = e.target.closest('.gimg'); if(!t) return;
+  imgBig.src = t.src; imgModal.classList.add('show'); imgModal.setAttribute('aria-hidden','false');
+});
+imgModal?.querySelector('.close')?.addEventListener('click', ()=>{ imgModal.classList.remove('show'); imgModal.setAttribute('aria-hidden','true'); });
+imgModal?.addEventListener('click', e=>{ if(e.target===imgModal) { imgModal.classList.remove('show'); imgModal.setAttribute('aria-hidden','true'); }});
