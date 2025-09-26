@@ -1,180 +1,137 @@
-// Helpers
+/* Helpers */
 const $ = (s, p=document)=>p.querySelector(s);
 const $$ = (s, p=document)=>Array.from(p.querySelectorAll(s));
 
 /* Year */
 $('#year') && ($('#year').textContent = new Date().getFullYear());
 
-/* Burger (show/hide nav) */
+/* Burger */
 $('.burger')?.addEventListener('click', ()=>{
   const nav = $('.mainnav');
   nav.style.display = (getComputedStyle(nav).display === 'none') ? 'flex' : 'none';
 });
 
-/* Language Packs */
-const i18n = {
+/* ===== i18n (يعمل فعليًا) ===== */
+const I18N = {
   ar:{
-    nav:{services:'الخدمات',work:'الأعمال',process:'المنهجية',gallery:'المعرض',book:'احجز'},
-    brandTitle:'مصطفى الصافي', brandSub:'إدارة مشاريع وأعمال • تأسيس وتشغيل وتسويق',
-    heroTitle:'أُحوّل الرؤية إلى <span class="accent">مشاريع تعمل وتُقاس</span>',
-    heroLead:'تأسيس شركات، ضبط التشغيل، وخطط تسويق عملية — لتسليم نتائج واضحة في الوقت والميزانية والجودة.',
-    'services.h':'ماذا أقدّم', 'services.p':'حزم تنفيذية مختصرة بنتائج قابلة للقياس.',
-    's1.h':'إدارة مشاريع (PMO)','s1.p':'هيكلة PMO، خارطة طريق، مؤشرات، وإدارة مخاطر وتغيير.','s1.b1':'إطار حوكمة ومتابعة','s1.b2':'تخطيط سعة وموارد','s1.b3':'تقارير تنفيذية',
-    's2.h':'تأسيس وتشغيل الشركات','s2.p':'تصميم الهيكل التشغيلي، SOPs، وLOE/SLAs قابلة للقياس.','s2.b1':'خرائط عمليات','s2.b2':'OKRs & KPIs','s2.b3':'لوحات متابعة يومية',
-    's3.h':'خطط تسويق ونمو','s3.p':'عرض قيمة، قمع مبيعات، وجدولة محتوى واختبارات A/B.','s3.b1':'GTM & Positioning','s3.b2':'Funnels & Automation','s3.b3':'تقارير ROI',
-    'cases.h':'دراسات حالة مختصرة','cases.p':'عينات عملية توضح الأسلوب والعائد.',
-    'c1.h':'إطلاق PMO لجهة خدمات','c1.p':'تسليم 11 مشروعًا في 2 ربع مع خفض المخاطر 24%.',
-    'c2.h':'تأسيس وتشغيل 5 فروع','c2.p':'SOPs، تدريب، ولوحات قياس — تقليص الزمن 31%.',
-    'c3.h':'خطة تسويق مع قمع مبيعات','c3.p':'+27% تحويل ورفع LTV في 90 يومًا.',
-    more:'التفاصيل',
-    'process.h':'كيف أعمل','process.p':'خطوات مركزة تُسلم نتائج ضمن الوقت والميزانية.',
-    'p1.h':'تقييم سريع','p1.p':'تحليل فجوات وKPI الحالي وخريطة مخاطر.',
-    'p2.h':'تصميم النظام','p2.p':'حوكمة PMO، SOPs، ولوحات قياس.',
-    'p3.h':'التنفيذ','p3.p':'إدارة موارد وجدولة، وWBS قابل للقياس.',
-    'p4.h':'التحسين','p4.p':'تقارير تنفيذية، A/B، وتجربة مستمرة.',
-    'gallery.h':'المعرض','gallery.p':'صور توضيحية من بيئات العمل، غرف عمليات، وتقارير.',
-    'cta.h':'جاهز لتحويل الفكرة إلى تشغيل؟','cta.p':'احجز جلسة تعريفية قصيرة لنضع خطة تنفيذ حقيقية.',
-    'cta.book':'احجز الآن','cta.call':'اتصال','cta.wa':'واتساب','cta.mail':'إيميل','cta.hint':'سيُفتح التطبيق المناسب دون عرض البيانات نصيًا.',
-    'modal.call':'اتصال الآن','modal.wa':'واتساب','modal.mail':'إيميل',
-    footerName:'مصطفى الصافي'
+    brandName:'مصطفى الصافي', brandTag:'إدارة مشاريع وأعمال • تأسيس وتشغيل وتسويق',
+    'nav.services':'الخدمات','nav.work':'الأعمال','nav.process':'المنهجية','nav.contact':'تواصل','nav.book':'احجز',
+    'hero.title_html':'أُحوّل الرؤية إلى <span class="accent">مشاريع تعمل وتُقاس</span>',
+    'hero.lead':'تأسيس شركات، ضبط التشغيل، وخطط تسويق عملية — لتسليم نتائج واضحة في الوقت والميزانية والجودة.',
+    'services.h':'خدمات تنفيذية سريعة','services.p':'حزم عملية تُسلم قيمة واضحة خلال أسابيع.',
+    's1.h':'إدارة مشاريع (PMO)','s1.p':'حوكمة، خارطة طريق، KPIs، إدارة مخاطر وتغيير.','s1.b1':'Governance & Tracking','s1.b2':'Capacity & Resourcing','s1.b3':'Executive Reports',
+    's2.h':'تأسيس وتشغيل الشركات','s2.p':'Operating Model، SOPs، SLAs قابلة للقياس.','s2.b1':'خرائط عمليات','s2.b2':'OKRs & KPIs','s2.b3':'Daily Dashboards',
+    's3.h':'خطط تسويق ونمو','s3.p':'عرض قيمة، قمع مبيعات، محتوى واختبارات A/B.','s3.b1':'GTM & Positioning','s3.b2':'Funnels & Automation','s3.b3':'ROI Reporting',
+    'cases.h':'نتائج مختصرة','cases.p':'عينات تُظهر الأسلوب والعائد.',
+    'c1.h':'إطلاق PMO — خدمات','c1.p':'11 مشروعًا/ربعين • خفض مخاطر 24%.',
+    'c2.h':'تشغيل 5 فروع','c2.p':'SOPs ولوحات قياس • -31% زمن دورة.',
+    'c3.h':'خطة تسويق + قمع','c3.p':'+27% تحويل • رفع LTV خلال 90 يومًا.',
+    'more':'التفاصيل',
+    'cta.h':'لنحوّل الأهداف إلى تشغيل فعلي','cta.p':'جلسة تعريف قصيرة لوضع خطة تنفيذ قابلة للقياس.',
+    'cta.book':'احجز الآن','cta.wa':'واتساب','cta.call':'اتصال','cta.mail':'إيميل','cta.hint':'سيتم فتح التطبيق المناسب دون إظهار البيانات.',
+    'modal.call':'اتصال الآن','modal.wa':'واتساب','modal.mail':'إيميل'
   },
   en:{
-    nav:{services:'Services',work:'Work',process:'Process',gallery:'Gallery',book:'Book'},
-    brandTitle:'Mostafa Al-Safy', brandSub:'Project & Business Management • Setup, Operations, Marketing',
-    heroTitle:'I turn vision into <span class="accent">projects that ship & scale</span>',
-    heroLead:'Company setup, lean operations, and actionable marketing plans—on time, on budget, on quality.',
-    'services.h':'What I Deliver', 'services.p':'Execution-first packages with measurable outcomes.',
-    's1.h':'Project Management (PMO)','s1.p':'PMO setup, roadmap, KPIs, and risk/change control.','s1.b1':'Governance & tracking','s1.b2':'Capacity & resourcing','s1.b3':'Executive reporting',
-    's2.h':'Company Setup & Operations','s2.p':'Operating model, SOPs, measurable SLAs and LOE.','s2.b1':'Process maps','s2.b2':'OKRs & KPIs','s2.b3':'Daily dashboards',
-    's3.h':'Marketing & Growth Plans','s3.p':'Value proposition, sales funnels, content & A/B tests.','s3.b1':'GTM & Positioning','s3.b2':'Funnels & Automation','s3.b3':'ROI reporting',
-    'cases.h':'Selected Case Studies','cases.p':'Practical samples that show approach and ROI.',
-    'c1.h':'PMO Launch for Services Org','c1.p':'11 projects delivered across 2 quarters; risk -24%.',
-    'c2.h':'Setup & Operate 5 Branches','c2.p':'SOPs, training & dashboards; cycle time -31%.',
-    'c3.h':'Marketing Plan + Funnel','c3.p':'+27% conversion and higher LTV in 90 days.',
-    more:'Details',
-    'process.h':'How I Work','process.p':'Focused steps that ship results on time and on budget.',
-    'p1.h':'Rapid Assessment','p1.p':'Gap analysis, current KPIs, and risk map.',
-    'p2.h':'System Design','p2.p':'PMO governance, SOPs, and dashboards.',
-    'p3.h':'Execution','p3.p':'Resourcing, scheduling, and measurable WBS.',
-    'p4.h':'Optimization','p4.p':'Executive reporting, A/B tests, continuous improvement.',
-    'gallery.h':'Gallery','gallery.p':'Illustrative workplace, ops rooms, and reporting visuals.',
-    'cta.h':'Ready to turn ideas into operations?','cta.p':'Book a short intro to map a real execution plan.',
-    'cta.book':'Book Now','cta.call':'Call','cta.wa':'WhatsApp','cta.mail':'Email','cta.hint':'We will open the proper app without exposing details.',
-    'modal.call':'Call Now','modal.wa':'WhatsApp','modal.mail':'Email',
-    footerName:'Mostafa Al-Safy'
+    brandName:'Mostafa Al-Safy', brandTag:'Project & Business Management • Setup, Operations, Marketing',
+    'nav.services':'Services','nav.work':'Work','nav.process':'Process','nav.contact':'Contact','nav.book':'Book',
+    'hero.title_html':'I turn vision into <span class="accent">projects that ship & scale</span>',
+    'hero.lead':'Company setup, lean operations, and actionable marketing—on time, on budget, on quality.',
+    'services.h':'Execution-First Services','services.p':'Short, high-impact packages that deliver measurable value.',
+    's1.h':'Project Management (PMO)','s1.p':'Governance, roadmap, KPIs, risk/change control.','s1.b1':'Governance & Tracking','s1.b2':'Capacity & Resourcing','s1.b3':'Executive Reports',
+    's2.h':'Company Setup & Operations','s2.p':'Operating model, SOPs, and measurable SLAs.','s2.b1':'Process Maps','s2.b2':'OKRs & KPIs','s2.b3':'Daily Dashboards',
+    's3.h':'Marketing & Growth Plans','s3.p':'Value prop, sales funnels, content & A/B tests.','s3.b1':'GTM & Positioning','s3.b2':'Funnels & Automation','s3.b3':'ROI Reporting',
+    'cases.h':'Selected Results','cases.p':'Examples that demonstrate approach and ROI.',
+    'c1.h':'PMO Launch — Services','c1.p':'11 projects / 2 quarters • risk -24%.',
+    'c2.h':'Operate 5 Branches','c2.p':'Unified SOPs & dashboards • cycle time -31%.',
+    'c3.h':'Marketing Plan + Funnel','c3.p':'+27% conversion • higher LTV in 90 days.',
+    'more':'Details',
+    'cta.h':'Let’s turn goals into operations','cta.p':'Book a short intro to map a measurable execution plan.',
+    'cta.book':'Book Now','cta.wa':'WhatsApp','cta.call':'Call','cta.mail':'Email','cta.hint':'We will open the proper app without exposing details.',
+    'modal.call':'Call Now','modal.wa':'WhatsApp','modal.mail':'Email'
   }
 };
-let LANG = 'ar';
+let LANG='ar';
 
 function applyLang(l){
-  LANG = l;
+  LANG=l;
   document.documentElement.lang = (l==='ar'?'ar':'en');
   document.documentElement.dir  = (l==='ar'?'rtl':'ltr');
   document.body.setAttribute('data-lang', l);
-  const t = i18n[l];
-  // simple keys
-  $('[data-i18n="nav.services"]').textContent = t.nav.services;
-  $('[data-i18n="nav.work"]').textContent = t.nav.work;
-  $('[data-i18n="nav.process"]').textContent = t.nav.process;
-  $('[data-i18n="nav.gallery"]').textContent = t.nav.gallery;
-  $('[data-i18n="nav.book"]').textContent = t.nav.book;
-  $('#t.brandTitle').textContent = t.brandTitle;
-  $('#t.brandSub').textContent   = t.brandSub;
-  $('#t.heroTitle').innerHTML    = t.heroTitle;
-  $('#t.heroLead').textContent   = t.heroLead;
+  const pack = I18N[l];
 
-  // bulk map
-  const keys = ['services.h','services.p','s1.h','s1.p','s1.b1','s1.b2','s1.b3','s2.h','s2.p','s2.b1','s2.b2','s2.b3','s3.h','s3.p','s3.b1','s3.b2','s3.b3','cases.h','cases.p','c1.h','c1.p','c2.h','c2.p','c3.h','c3.p','more','process.h','process.p','p1.h','p1.p','p2.h','p2.p','p3.h','p3.p','p4.h','p4.p','gallery.h','gallery.p','cta.h','cta.p','cta.book','cta.call','cta.wa','cta.mail','modal.call','modal.wa','modal.mail','cta.hint'];
-  keys.forEach(k=>{
-    const el = document.querySelector(`[data-i18n="${k}"]`);
-    if (el) el.textContent = t[k];
+  // بدّل كل العناصر التي لها data-i18n
+  $$('[data-i18n]').forEach(el=>{
+    const key = el.getAttribute('data-i18n');
+    const val = pack[key];
+    if (val == null) return;
+    if (key.endsWith('_html') || /<[^>]+>/.test(val)) el.innerHTML = val;
+    else el.textContent = val;
   });
-  $('#t.footerName').textContent = t.footerName;
-  $('#langToggle').textContent   = (l==='ar'?'EN':'AR');
+
+  $('#langToggle').textContent = (l==='ar'?'EN':'AR');
 }
 applyLang('ar');
-
 $('#langToggle').addEventListener('click', ()=>applyLang(LANG==='ar'?'en':'ar'));
 
-/* Carousel */
+/* ===== Carousel (يعمل) ===== */
 const track = $('#caseTrack'), dotsWrap = $('#caseDots');
 if (track && dotsWrap){
   const slides = Array.from(track.children);
-  let idx = 0, auto;
+  let idx=0, auto;
   function updateDots(){ dotsWrap.querySelectorAll('button').forEach((b,i)=>b.classList.toggle('active', i===idx)); }
-  function go(n){
-    idx = (n + slides.length) % slides.length;
-    const X = slides[idx].offsetLeft - track.offsetLeft;
-    track.scrollTo({left:X, behavior:'smooth'}); updateDots();
-  }
-  slides.forEach((_,i)=>{ const b=document.createElement('button'); b.setAttribute('aria-label',`slide ${i+1}`); b.onclick=()=>go(i); dotsWrap.appendChild(b); });
+  function go(n){ idx=(n+slides.length)%slides.length; track.scrollTo({left:slides[idx].offsetLeft-track.offsetLeft,behavior:'smooth'}); updateDots(); }
+  slides.forEach((_,i)=>{ const b=document.createElement('button'); b.setAttribute('aria-label','slide '+(i+1)); b.onclick=()=>go(i); dotsWrap.appendChild(b); });
   updateDots();
-  document.querySelector('.prev').onclick=()=>go(idx-1);
-  document.querySelector('.next').onclick=()=>go(idx+1);
-  const startAuto=()=>auto=setInterval(()=>go(idx+1),5000);
-  const stopAuto =()=>clearInterval(auto);
-  track.addEventListener('mouseenter',stopAuto);
-  track.addEventListener('mouseleave',startAuto);
-  startAuto();
-  // swipe
-  let startX=0;
-  track.addEventListener('touchstart',e=>{ startX=e.touches[0].clientX; },{passive:true});
-  track.addEventListener('touchend',e=>{ const dx=e.changedTouches[0].clientX-startX; if(Math.abs(dx)>50){ dx>0?go(idx-1):go(idx+1);} },{passive:true});
+  $('.prev').onclick=()=>go(idx-1); $('.next').onclick=()=>go(idx+1);
+  const start=()=>auto=setInterval(()=>go(idx+1),5000), stop=()=>clearInterval(auto);
+  track.addEventListener('mouseenter',stop); track.addEventListener('mouseleave',start); start();
+  let sx=0; track.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;},{passive:true});
+  track.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx; if(Math.abs(dx)>50){dx>0?go(idx-1):go(idx+1)}},{passive:true});
 }
 
-/* Case Modal */
-const CASES = {
-  ar:{
-    1:{t:'إطلاق PMO لجهة خدمات', d:'إعداد إطار الحوكمة، تقارير أسبوعية، ومصفوفة مخاطر. تم تسليم 11 مشروعًا خلال ربعين وتقليل المخاطر 24%.', b:['حوكمة PMO','تقارير تنفيذية','خفض المخاطر 24%']},
-    2:{t:'تأسيس وتشغيل 5 فروع', d:'SOPs موحدة، تدريب، ولوحات قياس. تقليص زمن الدورة 31% وتحسن رضا العملاء.', b:['SOPs موحدة','لوحات قياس يومية','-31% زمن الدورة']},
-    3:{t:'خطة تسويق + قمع مبيعات', d:'صياغة عرض قيمة وتجارب A/B ورسائل متابعة. +27% تحويل خلال 90 يومًا.', b:['عرض قيمة','A/B + Follow-ups','+27% تحويل']}
-  },
-  en:{
-    1:{t:'PMO Launch for Services Org', d:'Governance framework, weekly reporting, risk matrix. 11 projects shipped in two quarters; risks down 24%.', b:['PMO governance','Exec reporting','-24% risk']},
-    2:{t:'Setup & Operate 5 Branches', d:'Unified SOPs, training, dashboards. Cycle time down 31%; CSAT up.', b:['Unified SOPs','Daily dashboards','-31% cycle time']},
-    3:{t:'Marketing Plan + Funnel', d:'Value prop, A/B tests, follow-ups. +27% conversion in 90 days.', b:['Value proposition','A/B + follow-ups','+27% conversion']}
-  }
+/* ===== Case Modal ===== */
+const CASES={
+  ar:{1:{t:'إطلاق PMO — خدمات',d:'حوكمة، تقارير أسبوعية، ومصفوفة مخاطر. 11 مشروعًا خلال ربعين وخفض مخاطر 24%.',b:['PMO Governance','تقارير تنفيذية','-24% مخاطر']},
+      2:{t:'تشغيل 5 فروع',d:'SOPs موحدة، تدريب ولوحات قياس. -31% زمن الدورة وارتفاع رضا العملاء.',b:['SOPs','Daily Dashboards','-31% زمن']},
+      3:{t:'خطة تسويق + قمع',d:'عرض قيمة، اختبارات A/B ورسائل متابعة. +27% تحويل في 90 يومًا.',b:['Value Prop','A/B + Follow-ups','+27% تحويل']}},
+  en:{1:{t:'PMO Launch — Services',d:'Governance, weekly reporting, and risk matrix. 11 projects in two quarters; risk -24%.',b:['PMO Governance','Executive Reports','-24% risk']},
+      2:{t:'Operate 5 Branches',d:'Unified SOPs, training, dashboards. Cycle time -31%; CSAT up.',b:['Unified SOPs','Daily Dashboards','-31% cycle time']},
+      3:{t:'Marketing Plan + Funnel',d:'Value prop, A/B tests, follow-ups. +27% conversion in 90 days.',b:['Value Prop','A/B + Follow-ups','+27% conversion']}}
 };
 const caseModal = $('#caseModal');
 const cTitle = $('#caseTitle'), cDesc = $('#caseDesc'), cBul = $('#caseBullets');
-$$('.open-modal').forEach(b=>{
-  b.addEventListener('click', ()=>{
-    const id=b.dataset.case;
-    const data = CASES[LANG][id];
-    cTitle.textContent=data.t; cDesc.textContent=data.d;
-    cBul.innerHTML=''; data.b.forEach(x=>{ const li=document.createElement('li'); li.textContent=x; cBul.appendChild(li); });
+$$('.open-case').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const data = CASES[LANG][btn.dataset.case];
+    cTitle.textContent = data.t; cDesc.textContent = data.d;
+    cBul.innerHTML=''; data.b.forEach(x=>{const li=document.createElement('li'); li.textContent=x; cBul.appendChild(li);});
     caseModal.classList.add('show'); caseModal.setAttribute('aria-hidden','false');
   });
 });
 caseModal?.querySelector('.close')?.addEventListener('click', ()=>{ caseModal.classList.remove('show'); caseModal.setAttribute('aria-hidden','true'); });
-caseModal?.addEventListener('click', e=>{ if(e.target===caseModal) { caseModal.classList.remove('show'); caseModal.setAttribute('aria-hidden','true'); }});
+caseModal?.addEventListener('click', e=>{ if(e.target===caseModal){ caseModal.classList.remove('show'); caseModal.setAttribute('aria-hidden','true'); }});
 
-/* Contact Modal (no public data) */
+/* ===== Contact Modal (الأزرار تعمل) ===== */
 const contactModal = $('#contactModal');
-const contactTitle = $('#contactTitle'), contactDesc = $('#contactDesc');
-const copy = {
-  ar:{callTitle:'اتصال',callDesc:'سيتم فتح تطبيق الاتصال مباشرة.',waTitle:'واتساب',waDesc:'سيتم فتح واتساب برسالة تمهيدية.',emTitle:'إيميل',emDesc:'سيتم فتح برنامج البريد.'},
-  en:{callTitle:'Phone Call',callDesc:'We will open your dialer directly.',waTitle:'WhatsApp',waDesc:'We will open WhatsApp with a starter message.',emTitle:'Email',emDesc:'We will open your mail app.'}
+const contactCopy = {
+  ar:{call:['اتصال','سيتم فتح تطبيق الاتصال مباشرة.'],
+      whatsapp:['واتساب','سيتم فتح واتساب برسالة تمهيدية.'],
+      email:['إيميل','سيتم فتح برنامج البريد.']},
+  en:{call:['Call','We will open your dialer directly.'],
+      whatsapp:['WhatsApp','We will open WhatsApp with a starter message.'],
+      email:['Email','We will open your mail app.']}
 };
 $$('.open-contact').forEach(btn=>{
   btn.addEventListener('click', ()=>{
-    const ch=btn.dataset.channel; const c=copy[LANG];
-    const m = {call:[c.callTitle,c.callDesc], whatsapp:[c.waTitle,c.waDesc], email:[c.emTitle,c.emDesc]}[ch];
-    contactTitle.textContent = m[0]; contactDesc.textContent = m[1];
+    const ch = btn.dataset.channel;
+    const [t,d] = contactCopy[LANG][ch];
+    $('#contactTitle').textContent = t;
+    $('#contactDesc').textContent  = d;
     contactModal.classList.add('show'); contactModal.setAttribute('aria-hidden','false');
     $$('.do-action').forEach(x=>x.classList.remove('primary'));
     $(`.do-action[data-action="${ch}"]`)?.classList.add('primary');
   });
 });
 contactModal?.querySelector('.close')?.addEventListener('click', ()=>{ contactModal.classList.remove('show'); contactModal.setAttribute('aria-hidden','true'); });
-contactModal?.addEventListener('click', e=>{ if(e.target===contactModal) { contactModal.classList.remove('show'); contactModal.setAttribute('aria-hidden','true'); }});
+contactModal?.addEventListener('click', e=>{ if(e.target===contactModal){ contactModal.classList.remove('show'); contactModal.setAttribute('aria-hidden','true'); }});
 $$('.do-action').forEach(btn=>btn.addEventListener('click', ()=>{ window.location.href = btn.dataset.hidden; }));
-
-/* Gallery modal */
-const imgModal = $('#imgModal'), imgBig = $('#imgBig');
-$('#galGrid')?.addEventListener('click', e=>{
-  const t = e.target.closest('.gimg'); if(!t) return;
-  imgBig.src = t.src; imgModal.classList.add('show'); imgModal.setAttribute('aria-hidden','false');
-});
-imgModal?.querySelector('.close')?.addEventListener('click', ()=>{ imgModal.classList.remove('show'); imgModal.setAttribute('aria-hidden','true'); });
-imgModal?.addEventListener('click', e=>{ if(e.target===imgModal) { imgModal.classList.remove('show'); imgModal.setAttribute('aria-hidden','true'); }});
