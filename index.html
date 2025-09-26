@@ -3,37 +3,34 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="color-scheme" content="dark light">
-  <title>مصطفى الصافي | إدارة مشاريع وأعمال — تأسيس، تشغيل، وتسويق</title>
-  <meta name="description" content="مصطفى الصافي — مدير مشاريع وأعمال: تأسيس شركات، تشغيل ذكي، وخطط تسويق عملية تُسلم نتائج قابلة للقياس." />
+  <title>مصطفى الصافي | إدارة مشاريع وأعمال</title>
+  <meta name="description" content="مصطفى الصافي — إدارة مشاريع وأعمال: تأسيس شركات، تشغيل ذكي، وخطط تسويق تُسلّم نتائج قابلة للقياس." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800;900&family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body data-lang="ar">
-  <!-- خلفيات زخرفية -->
+  <!-- خلفيات -->
   <div class="bg grad-a" aria-hidden="true"></div>
   <div class="bg grad-b" aria-hidden="true"></div>
 
-  <!-- رأس -->
+  <!-- الهيدر -->
   <header class="topbar">
     <a href="#home" class="brand">
       <span class="mark">ص</span>
       <div class="bmeta">
-        <strong id="t.brandTitle">مصطفى الصافي</strong>
-        <span id="t.brandSub">إدارة مشاريع وأعمال • تأسيس وتشغيل وتسويق</span>
+        <strong data-i18n="brandName">مصطفى الصافي</strong>
+        <span data-i18n="brandTag">إدارة مشاريع وأعمال • تأسيس وتشغيل وتسويق</span>
       </div>
     </a>
-
     <nav class="mainnav" aria-label="navigation">
-      <a href="#services" data-i18n="nav.services" class="nlink">الخدمات</a>
-      <a href="#cases" data-i18n="nav.work" class="nlink">الأعمال</a>
-      <a href="#process" data-i18n="nav.process" class="nlink">المنهجية</a>
-      <a href="#gallery" data-i18n="nav.gallery" class="nlink">المعرض</a>
-      <a href="#contact" data-i18n="nav.book" class="btn primary">احجز</a>
+      <a href="#services" class="nlink" data-i18n="nav.services">الخدمات</a>
+      <a href="#work" class="nlink" data-i18n="nav.work">الأعمال</a>
+      <a href="#process" class="nlink" data-i18n="nav.process">المنهجية</a>
+      <a href="#contact" class="btn ghost" data-i18n="nav.contact">تواصل</a>
+      <a href="https://app.usemotion.com/meet/mustafa-elsafy/Booking" target="_blank" rel="noopener" class="btn primary" data-i18n="nav.book">احجز</a>
     </nav>
-
     <div class="actions">
       <button id="langToggle" class="chip" aria-label="Toggle Language">EN</button>
       <button class="burger" aria-label="menu"></button>
@@ -43,226 +40,155 @@
   <!-- البطل -->
   <section id="home" class="hero">
     <div class="hero-media">
-      <!-- صورة بطل واقعية -->
-      <img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1600&auto=format&fit=crop" alt="" loading="eager" />
-      <div class="overlay"></div>
+      <img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1600&auto=format&fit=crop" alt="">
+      <div class="overlay" aria-hidden="true"></div>
     </div>
     <div class="hero-inner container">
-      <h1 id="t.heroTitle" class="title">
+      <h1 class="title" data-i18n="hero.title_html">
         أُحوّل الرؤية إلى <span class="accent">مشاريع تعمل وتُقاس</span>
       </h1>
-      <p id="t.heroLead" class="lead">
+      <p class="lead" data-i18n="hero.lead">
         تأسيس شركات، ضبط التشغيل، وخطط تسويق عملية — لتسليم نتائج واضحة في الوقت والميزانية والجودة.
       </p>
       <div class="cta-row">
         <a class="btn primary" href="https://app.usemotion.com/meet/mustafa-elsafy/Booking" target="_blank" rel="noopener" data-i18n="cta.book">احجز جلسة</a>
-        <button class="btn ghost open-contact" data-channel="call" data-i18n="cta.call"><span class="ico phone"></span> اتصال</button>
-        <button class="btn ghost open-contact" data-channel="whatsapp" data-i18n="cta.wa"><span class="ico wa"></span> واتساب</button>
-        <button class="btn ghost open-contact" data-channel="email" data-i18n="cta.mail"><span class="ico mail"></span> إيميل</button>
+        <button class="btn ghost open-contact" data-channel="whatsapp"><span class="ico wa"></span><span data-i18n="cta.wa">واتساب</span></button>
+        <button class="btn ghost open-contact" data-channel="call"><span class="ico phone"></span><span data-i18n="cta.call">اتصال</span></button>
+        <button class="btn ghost open-contact" data-channel="email"><span class="ico mail"></span><span data-i18n="cta.mail">إيميل</span></button>
       </div>
-
-      <!-- نقاط قوة -->
       <div class="pill-row">
         <span class="pill">PMO & Governance</span>
         <span class="pill">Business Setup</span>
-        <span class="pill">GTM & Marketing Plans</span>
+        <span class="pill">GTM & Marketing</span>
         <span class="pill">SOPs & Dashboards</span>
       </div>
     </div>
   </section>
 
-  <!-- خدمات -->
+  <!-- الخدمات -->
   <section id="services" class="section container">
     <div class="s-head">
-      <h2 data-i18n="services.h">ماذا أقدّم</h2>
-      <p data-i18n="services.p">حزم تنفيذية مختصرة بنتائج قابلة للقياس.</p>
+      <h2 data-i18n="services.h">خدمات تنفيذية سريعة</h2>
+      <p data-i18n="services.p">حزم عملية تُسلم قيمة واضحة خلال أسابيع.</p>
     </div>
-
     <div class="cards-3">
       <article class="card srv">
-        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1200&auto=format&fit=crop" alt="" />
+        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1200&auto=format&fit=crop" alt="">
         <div class="c-body">
           <h3 data-i18n="s1.h">إدارة مشاريع (PMO)</h3>
-          <p data-i18n="s1.p">هيكلة PMO، خارطة طريق، مؤشرات، وإدارة مخاطر وتغيير.</p>
+          <p data-i18n="s1.p">حوكمة، خارطة طريق، KPIs، إدارة مخاطر وتغيير.</p>
           <ul class="bul">
-            <li data-i18n="s1.b1">إطار حوكمة ومتابعة</li>
-            <li data-i18n="s1.b2">تخطيط سعة وموارد</li>
-            <li data-i18n="s1.b3">تقارير تنفيذية</li>
+            <li data-i18n="s1.b1">Governance & Tracking</li>
+            <li data-i18n="s1.b2">Capacity & Resourcing</li>
+            <li data-i18n="s1.b3">Executive Reports</li>
           </ul>
         </div>
       </article>
-
       <article class="card srv">
-        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1200&auto=format&fit=crop" alt="" />
+        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1200&auto=format&fit=crop" alt="">
         <div class="c-body">
           <h3 data-i18n="s2.h">تأسيس وتشغيل الشركات</h3>
-          <p data-i18n="s2.p">تصميم الهيكل التشغيلي، SOPs، وLOE/SLAs قابلة للقياس.</p>
+          <p data-i18n="s2.p">Operating Model، SOPs، SLAs قابلة للقياس.</p>
           <ul class="bul">
             <li data-i18n="s2.b1">خرائط عمليات</li>
             <li data-i18n="s2.b2">OKRs & KPIs</li>
-            <li data-i18n="s2.b3">لوحات متابعة يومية</li>
+            <li data-i18n="s2.b3">Daily Dashboards</li>
           </ul>
         </div>
       </article>
-
       <article class="card srv">
-        <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=1200&auto=format&fit=crop" alt="" />
+        <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=1200&auto=format&fit=crop" alt="">
         <div class="c-body">
           <h3 data-i18n="s3.h">خطط تسويق ونمو</h3>
-          <p data-i18n="s3.p">عرض قيمة، قمع مبيعات، وجدولة محتوى واختبارات A/B.</p>
+          <p data-i18n="s3.p">عرض قيمة، قمع مبيعات، محتوى واختبارات A/B.</p>
           <ul class="bul">
             <li data-i18n="s3.b1">GTM & Positioning</li>
             <li data-i18n="s3.b2">Funnels & Automation</li>
-            <li data-i18n="s3.b3">تقارير ROI</li>
+            <li data-i18n="s3.b3">ROI Reporting</li>
           </ul>
         </div>
       </article>
     </div>
   </section>
 
-  <!-- دراسات حالة (سلايدر صور وروابط) -->
-  <section id="cases" class="section container">
+  <!-- الأعمال (سلايدر) -->
+  <section id="work" class="section container">
     <div class="s-head">
-      <h2 data-i18n="cases.h">دراسات حالة مختصرة</h2>
-      <p data-i18n="cases.p">عينات عملية توضح الأسلوب والعائد.</p>
+      <h2 data-i18n="cases.h">نتائج مختصرة</h2>
+      <p data-i18n="cases.p">عينات تُظهر الأسلوب والعائد.</p>
     </div>
-
     <div class="carousel">
       <button class="nav prev" aria-label="prev"><span class="ico chevron"></span></button>
-
       <div class="track" id="caseTrack" aria-live="polite">
-        <!-- كيس 1 -->
         <article class="slide">
-          <img src="https://images.unsplash.com/photo-1523961131990-5ea7c61b2107?q=80&w=1600&auto=format&fit=crop" alt="" />
+          <img src="https://images.unsplash.com/photo-1523961131990-5ea7c61b2107?q=80&w=1600&auto=format&fit=crop" alt="">
           <div class="cap">
-            <h3 data-i18n="c1.h">إطلاق PMO لجهة خدمات</h3>
-            <p data-i18n="c1.p">تسليم 11 مشروعًا في 2 ربع مع خفض المخاطر 24%.</p>
+            <h3 data-i18n="c1.h">إطلاق PMO — خدمات</h3>
+            <p data-i18n="c1.p">11 مشروعًا/ربعين • خفض مخاطر 24%.</p>
             <div class="links">
               <a href="https://www.pmi.org" target="_blank" rel="noopener">PMI</a>
-              <button class="btn small ghost open-modal" data-case="1" data-i18n="more">التفاصيل</button>
+              <button class="btn small ghost open-case" data-case="1" data-i18n="more">التفاصيل</button>
             </div>
           </div>
         </article>
-        <!-- كيس 2 -->
         <article class="slide">
-          <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1600&auto=format&fit=crop" alt="" />
+          <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1600&auto=format&fit=crop" alt="">
           <div class="cap">
-            <h3 data-i18n="c2.h">تأسيس وتشغيل 5 فروع</h3>
-            <p data-i18n="c2.p">SOPs، تدريب، ولوحات قياس — تقليص الزمن 31%.</p>
+            <h3 data-i18n="c2.h">تشغيل 5 فروع</h3>
+            <p data-i18n="c2.p">SOPs ولوحات قياس • -31% زمن دورة.</p>
             <div class="links">
               <a href="https://www.iso.org/iso-9001-quality-management.html" target="_blank" rel="noopener">ISO 9001</a>
-              <button class="btn small ghost open-modal" data-case="2" data-i18n="more">التفاصيل</button>
+              <button class="btn small ghost open-case" data-case="2" data-i18n="more">التفاصيل</button>
             </div>
           </div>
         </article>
-        <!-- كيس 3 -->
         <article class="slide">
-          <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1600&auto=format&fit=crop" alt="" />
+          <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1600&auto=format&fit=crop" alt="">
           <div class="cap">
-            <h3 data-i18n="c3.h">خطة تسويق مع قمع مبيعات</h3>
-            <p data-i18n="c3.p">+27% تحويل ورفع LTV في 90 يومًا.</p>
+            <h3 data-i18n="c3.h">خطة تسويق + قمع</h3>
+            <p data-i18n="c3.p">+27% تحويل • رفع LTV خلال 90 يومًا.</p>
             <div class="links">
               <a href="https://www.hubspot.com/" target="_blank" rel="noopener">HubSpot</a>
-              <button class="btn small ghost open-modal" data-case="3" data-i18n="more">التفاصيل</button>
+              <button class="btn small ghost open-case" data-case="3" data-i18n="more">التفاصيل</button>
             </div>
           </div>
         </article>
       </div>
-
       <button class="nav next" aria-label="next"><span class="ico chevron flip"></span></button>
-      <div class="dots" id="caseDots" aria-label="dots"></div>
-    </div>
-  </section>
-
-  <!-- المنهجية (تايملاين) -->
-  <section id="process" class="section container">
-    <div class="s-head">
-      <h2 data-i18n="process.h">كيف أعمل</h2>
-      <p data-i18n="process.p">خطوات مركزة تُسلم نتائج ضمن الوقت والميزانية.</p>
-    </div>
-
-    <ol class="timeline">
-      <li>
-        <span class="step">01</span>
-        <div>
-          <h4 data-i18n="p1.h">تقييم سريع</h4>
-          <p data-i18n="p1.p">تحليل فجوات وKPI الحالي وخريطة مخاطر.</p>
-        </div>
-      </li>
-      <li>
-        <span class="step">02</span>
-        <div>
-          <h4 data-i18n="p2.h">تصميم النظام</h4>
-          <p data-i18n="p2.p">حوكمة PMO، SOPs، ولوحات قياس.</p>
-        </div>
-      </li>
-      <li>
-        <span class="step">03</span>
-        <div>
-          <h4 data-i18n="p3.h">التنفيذ</h4>
-          <p data-i18n="p3.p">إدارة موارد وجدولة، وWBS قابل للقياس.</p>
-        </div>
-      </li>
-      <li>
-        <span class="step">04</span>
-        <div>
-          <h4 data-i18n="p4.h">التحسين</h4>
-          <p data-i18n="p4.p">تقارير تنفيذية، A/B، وتجربة مستمرة.</p>
-        </div>
-      </li>
-    </ol>
-  </section>
-
-  <!-- معرض صور (شبكة + مودال) -->
-  <section id="gallery" class="section container">
-    <div class="s-head">
-      <h2 data-i18n="gallery.h">المعرض</h2>
-      <p data-i18n="gallery.p">صور توضيحية من بيئات العمل، غرف عمليات، وتقارير.</p>
-    </div>
-
-    <div class="grid-4" id="galGrid">
-      <!-- صور Unsplash عالية الجودة -->
-      <img src="https://images.unsplash.com/photo-1557800636-894a64c1696f?q=80&w=1200&auto=format&fit=crop" alt="PM tools" class="gimg" />
-      <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?q=80&w=1200&auto=format&fit=crop" alt="Team standup" class="gimg" />
-      <img src="https://images.unsplash.com/photo-1587614382346-ac5ce068fe85?q=80&w=1200&auto=format&fit=crop" alt="Workspace" class="gimg" />
-      <img src="https://images.unsplash.com/photo-1551281044-8d8d0d8b22fa?q=80&w=1200&auto=format&fit=crop" alt="SOP wall" class="gimg" />
-      <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=1200&auto=format&fit=crop" alt="Team board" class="gimg" />
-      <img src="https://images.unsplash.com/photo-1529101091764-c3526daf38fe?q=80&w=1200&auto=format&fit=crop" alt="Presentation" class="gimg" />
-      <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=1200&auto=format&fit=crop" alt="Analytics" class="gimg" />
-      <img src="https://images.unsplash.com/photo-1487014679447-9f8336841d58?q=80&w=1200&auto=format&fit=crop" alt="Brainstorm" class="gimg" />
+      <div class="dots" id="caseDots"></div>
     </div>
   </section>
 
   <!-- CTA نهائي -->
-  <section id="contact" class="cta section container">
+  <section id="contact" class="section container">
     <div class="cta-box">
-      <h2 data-i18n="cta.h">جاهز لتحويل الفكرة إلى تشغيل؟</h2>
-      <p data-i18n="cta.p">احجز جلسة تعريفية قصيرة لنضع خطة تنفيذ حقيقية.</p>
+      <h2 data-i18n="cta.h">لنحوّل الأهداف إلى تشغيل فعلي</h2>
+      <p data-i18n="cta.p">جلسة تعريف قصيرة لوضع خطة تنفيذ قابلة للقياس.</p>
       <div class="cta-row">
         <a class="btn primary" href="https://app.usemotion.com/meet/mustafa-elsafy/Booking" target="_blank" rel="noopener" data-i18n="cta.book">احجز الآن</a>
-        <button class="btn ghost open-contact" data-channel="whatsapp" data-i18n="cta.wa"><span class="ico wa"></span> واتساب</button>
-        <button class="btn ghost open-contact" data-channel="call" data-i18n="cta.call"><span class="ico phone"></span> اتصال</button>
-        <button class="btn ghost open-contact" data-channel="email" data-i18n="cta.mail"><span class="ico mail"></span> إيميل</button>
+        <button class="btn ghost open-contact" data-channel="whatsapp"><span class="ico wa"></span><span data-i18n="cta.wa">واتساب</span></button>
+        <button class="btn ghost open-contact" data-channel="call"><span class="ico phone"></span><span data-i18n="cta.call">اتصال</span></button>
+        <button class="btn ghost open-contact" data-channel="email"><span class="ico mail"></span><span data-i18n="cta.mail">إيميل</span></button>
       </div>
     </div>
   </section>
 
   <footer class="foot">
-    <p>© <span id="year"></span> <span id="t.footerName">مصطفى الصافي</span></p>
+    <p>© <span id="year"></span> <span data-i18n="brandName">مصطفى الصافي</span></p>
   </footer>
 
-  <!-- مودال تواصل (لا يظهر الرقم/البريد علنًا) -->
+  <!-- مودال التواصل (لا يَعرض البيانات علنًا) -->
   <div id="contactModal" class="modal" aria-hidden="true">
     <div class="box">
       <button class="close"><span class="ico close"></span></button>
-      <h3 id="contactTitle">...</h3>
-      <p id="contactDesc">...</p>
+      <h3 id="contactTitle">—</h3>
+      <p id="contactDesc">—</p>
       <div class="m-actions">
         <button class="btn primary do-action" data-action="call" data-hidden="tel:00971502061209" data-i18n="modal.call">اتصال الآن</button>
         <button class="btn ghost do-action" data-action="whatsapp" data-hidden="https://wa.me/971502061209?text=Hello%20Mostafa" data-i18n="modal.wa">واتساب</button>
         <button class="btn ghost do-action" data-action="email" data-hidden="mailto:Moustafa.elsafy@hotmail.com?subject=Inquiry" data-i18n="modal.mail">إيميل</button>
       </div>
-      <small id="contactHint">سيُفتح التطبيق المناسب دون عرض البيانات نصيًا.</small>
+      <small data-i18n="cta.hint">سيتم فتح التطبيق المناسب دون إظهار البيانات.</small>
     </div>
   </div>
 
@@ -270,20 +196,17 @@
   <div id="caseModal" class="modal" aria-hidden="true">
     <div class="box">
       <button class="close"><span class="ico close"></span></button>
-      <h3 id="caseTitle">...</h3>
-      <p id="caseDesc">...</p>
+      <h3 id="caseTitle">—</h3>
+      <p id="caseDesc">—</p>
       <ul id="caseBullets" class="bul"></ul>
       <a class="btn primary" href="https://app.usemotion.com/meet/mustafa-elsafy/Booking" target="_blank" rel="noopener" data-i18n="cta.book">احجز مناقشة</a>
     </div>
   </div>
 
-  <!-- مودال صورة المعرض -->
-  <div id="imgModal" class="modal" aria-hidden="true">
-    <div class="imgbox">
-      <button class="close"><span class="ico close"></span></button>
-      <img id="imgBig" src="" alt="preview" />
-    </div>
-  </div>
+  <!-- زر عائم للتواصل -->
+  <button class="fab open-contact" data-channel="whatsapp" aria-label="WhatsApp">
+    <span class="ico wa"></span>
+  </button>
 
   <script src="assets/js/app.js"></script>
 </body>
